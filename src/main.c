@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "graphics/graphics_manager.h"
+#include "graphics_manager.h"
 
 int main(int argc, char ** argv)
 {

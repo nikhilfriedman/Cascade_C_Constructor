@@ -6,6 +6,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+#include "compile_manager.h"
+
 void graphics_loop(void)
 {
     initialize_SDL();
@@ -81,41 +83,41 @@ void graphics_loop(void)
                             case 1:
                                 if(blocks == NULL)
                                 {
-                                    blocks = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, "printf");
+                                    blocks = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("printf", 0, 0, NULL, 0));
                                     curr_block = blocks;
                                     break;
                                 } 
-                                curr_block -> next = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, "printf");
+                                curr_block -> next = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("printf", 0, 0, NULL, 0));
                                 curr_block = curr_block -> next;
                                 break;
                             case 2:
                                 if(blocks == NULL)
                                 {
-                                    blocks = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, "if");
+                                    blocks = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("if", 0, 0, NULL, 0));
                                     curr_block = blocks;
                                     break;
                                 } 
-                                curr_block -> next = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, "if");
+                                curr_block -> next = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("if", 0, 0, NULL, 0));
                                 curr_block = curr_block -> next;
                                 break;
                             case 3:
                                 if(blocks == NULL)
                                 {
-                                    blocks = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, "else");
+                                    blocks = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("else", 0, 0, NULL, 0));
                                     curr_block = blocks;
                                     break;
                                 } 
-                                curr_block -> next = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, "else");
+                                curr_block -> next = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("else", 0, 0, NULL, 0));
                                 curr_block = curr_block -> next;
                                 break;
                             case 4:
                                 if(blocks == NULL)
                                 {
-                                    blocks = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, "return");
+                                    blocks = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("return", 0, 0, NULL, 0));
                                     curr_block = blocks;
                                     break;
                                 } 
-                                curr_block -> next = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, "return");
+                                curr_block -> next = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("return", 0, 0, NULL, 0));
                                 curr_block = curr_block -> next;
                                 break;
                         }
@@ -143,7 +145,7 @@ void graphics_loop(void)
             Function_Block * render_pt = blocks;
             while(render_pt != NULL)
             {
-                render_button(renderer, dmsans, render_pt -> name, render_pt -> x + (window_w / 6), render_pt -> y, render_pt -> w, render_pt -> h);
+                render_button(renderer, dmsans, render_pt -> info -> name, render_pt -> x + (window_w / 6), render_pt -> y, render_pt -> w, render_pt -> h);
 
                 render_pt = render_pt -> next;
             }
@@ -170,6 +172,8 @@ void graphics_loop(void)
             // update = false;
         }
     }
+
+    free_function_blocks(blocks);
 
     SDL_Quit();
 }

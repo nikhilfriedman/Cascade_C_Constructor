@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -pedantic -O3 -m64
 LDFLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf
-INCLUDES = -I./SDL2/include
+INCLUDES = -I./SDL2/include -I./src/compilation -I./src/files -I./src/graphics
 LIBS = -L./SDL2/lib
 SRC_DIR = src
 
