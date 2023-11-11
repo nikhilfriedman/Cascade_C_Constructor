@@ -8,7 +8,7 @@
 
 #include "compile_manager.h"
 
-Function_Block * create_function_block(int x, int y, int w, int h, Function_Information * info)
+Function_Block * create_function_block(int x, int y, int w, int h, Function * func)
 {
     Function_Block * new_function_block = (Function_Block *) malloc(sizeof(Function_Block));
 
@@ -16,7 +16,7 @@ Function_Block * create_function_block(int x, int y, int w, int h, Function_Info
     new_function_block -> y    = y;
     new_function_block -> w    = w;
     new_function_block -> h    = h;
-    new_function_block -> info = info;
+    new_function_block -> func = func;
     new_function_block -> next = NULL;
 
     return new_function_block;

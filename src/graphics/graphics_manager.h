@@ -18,7 +18,7 @@ typedef struct Function_Block {
     int w;
     int h;
 
-    struct Function_Information * info;
+    struct Function * func;
 
     struct Function_Block * next;
 } Function_Block;
@@ -38,7 +38,7 @@ void render_button(SDL_Renderer * renderer, TTF_Font * font, char * text, int x,
 void render_panel (SDL_Renderer * renderer, int x, int y, int w, int h);
 
 // gui_data.c
-Function_Block * create_function_block(int x, int y, int w, int h, Function_Information * info);
+Function_Block * create_function_block(int x, int y, int w, int h, Function * func);
 void             free_function_blocks (Function_Block * head);
 
 #endif

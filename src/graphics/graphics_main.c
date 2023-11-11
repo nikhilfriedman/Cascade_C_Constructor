@@ -29,9 +29,6 @@ void graphics_loop(void)
 
     int mouse_icon = 0; // current mouse icon
 
-    Function_Block * blocks     = NULL;
-    Function_Block * curr_block = NULL;
-
     while(!quit)
     {
         // poll positions
@@ -47,84 +44,6 @@ void graphics_loop(void)
                     quit = true;
                     break;
                 case SDL_MOUSEBUTTONDOWN:
-                    if(mouse_x >= 40 && mouse_x <= 220)
-                    {
-                        // print button
-                        if(mouse_y >= 40 && mouse_y <= 120)
-                        {
-                            mouse_icon = 1;
-                        }
-
-                        // if button
-                        if(mouse_y >= 160 && mouse_y <= 240)
-                        {
-                            mouse_icon = 2;
-                        }
-
-                        // else button
-                        if(mouse_y >= 280 && mouse_y <= 360)
-                        {
-                            mouse_icon = 3;
-                        }
-
-                        // return button
-                        if(mouse_y >= 400 && mouse_y <= 480)
-                        {
-                            mouse_icon = 4;
-                        }
-                    }
-
-                    if(mouse_x >= (window_w / 6))
-                    {
-                        switch(mouse_icon)
-                        {
-                            case 0: 
-                                break;
-                            case 1:
-                                if(blocks == NULL)
-                                {
-                                    blocks = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("printf", 0, 0, NULL, 0));
-                                    curr_block = blocks;
-                                    break;
-                                } 
-                                curr_block -> next = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("printf", 0, 0, NULL, 0));
-                                curr_block = curr_block -> next;
-                                break;
-                            case 2:
-                                if(blocks == NULL)
-                                {
-                                    blocks = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("if", 0, 0, NULL, 0));
-                                    curr_block = blocks;
-                                    break;
-                                } 
-                                curr_block -> next = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("if", 0, 0, NULL, 0));
-                                curr_block = curr_block -> next;
-                                break;
-                            case 3:
-                                if(blocks == NULL)
-                                {
-                                    blocks = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("else", 0, 0, NULL, 0));
-                                    curr_block = blocks;
-                                    break;
-                                } 
-                                curr_block -> next = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("else", 0, 0, NULL, 0));
-                                curr_block = curr_block -> next;
-                                break;
-                            case 4:
-                                if(blocks == NULL)
-                                {
-                                    blocks = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("return", 0, 0, NULL, 0));
-                                    curr_block = blocks;
-                                    break;
-                                } 
-                                curr_block -> next = create_function_block(mouse_x - ((window_w / 6)), mouse_y, 180, 80, create_function_information("return", 0, 0, NULL, 0));
-                                curr_block = curr_block -> next;
-                                break;
-                        }
-
-                        mouse_icon = 0;
-                    }
-
                     break;
             }
         }
@@ -142,38 +61,10 @@ void graphics_loop(void)
             render_button(renderer, dmsans, "else", 40, 280, 180, 80);
             render_button(renderer, dmsans, "return", 40, 400, 180, 80);
 
-            Function_Block * render_pt = blocks;
-            while(render_pt != NULL)
-            {
-                render_button(renderer, dmsans, render_pt -> info -> name, render_pt -> x + (window_w / 6), render_pt -> y, render_pt -> w, render_pt -> h);
-
-                render_pt = render_pt -> next;
-            }
-
-            switch(mouse_icon)
-            {
-                case 0: 
-                    break;
-                case 1:
-                    render_button(renderer, dmsans, "printf", mouse_x, mouse_y, 180, 80);
-                    break;
-                case 2:
-                    render_button(renderer, dmsans, "if", mouse_x, mouse_y, 180, 80);
-                    break;
-                case 3:
-                    render_button(renderer, dmsans, "else", mouse_x, mouse_y, 180, 80);
-                    break;
-                case 4:
-                    render_button(renderer, dmsans, "return", mouse_x, mouse_y, 180, 80);
-                    break;
-            }
-
             SDL_RenderPresent(renderer);
             // update = false;
         }
     }
-
-    free_function_blocks(blocks);
 
     SDL_Quit();
 }

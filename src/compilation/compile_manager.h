@@ -11,6 +11,11 @@ typedef struct Node {
     struct Node * next;
 } Node;
 
+typedef struct String_Node {
+    char               * val;
+    struct String_Node * next;
+} String_Node;
+
 typedef struct Function_Information {
     char * name;
 
@@ -24,12 +29,12 @@ typedef struct Function_Information {
 
 typedef struct Function {
     struct Function_Information * info;
+    struct String_Node          * args;
     struct Function             * next;
 } Function;
 
 // compile_data.c
 Node                 * create_node                (int val);
 void                   free_list                  (Node * head);
-Function_Information * create_function_information(char * name, int id, int num_inputs, Node * input_args, int output_type);
-void                   free_function_information  (Function_Information * function);
+
 #endif

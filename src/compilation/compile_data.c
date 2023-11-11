@@ -25,31 +25,3 @@ void free_list(Node * head)
         head = temp;
     }
 }
-
-Function_Information * create_function_information(char * name, int id, int num_inputs, Node * input_args, int output_type)
-{
-    Function_Information * new_function_information = (Function_Information *) malloc(sizeof(Function_Information));
-
-    new_function_information -> name        = name;
-    new_function_information -> id          = id;
-    new_function_information -> num_inputs  = num_inputs;
-    new_function_information -> input_args  = input_args;
-    new_function_information -> output_type = output_type;
-
-    return new_function_information;
-}
-
-void free_function_information(Function_Information * function)
-{
-    free(function -> name);
-
-    Node * temp = NULL;
-    while(function -> input_args != NULL)
-    {
-        temp = function -> input_args -> next;
-        free(function -> input_args);
-        function -> input_args = temp;
-    }
-
-    free(function);
-}
