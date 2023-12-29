@@ -1,53 +1,41 @@
 #ifndef __COMPILE_MANAGER_H__
 #define __COMPILE_MANAGER_H__
 
+#include <stdbool.h>
+
 typedef struct Node {
-    int           val;
-    struct Node * next;
+    void        * val;  // value
+    struct Node * next; // next node
 } Node;
 
-typedef struct String_Node {
-    char               * val;
-    struct String_Node * next;
-} String_Node;
+typedef struct Argument {
+    int    type;    // data type
+    bool   pointer; // pointer to?
+    bool   address; // address of?
+    char * name;    // name of argument
+} Argument;
 
 typedef struct Function_Information {
-    char * name;
+    int    function_id;   // identifier for insert/search
+    char * function_name; // name of function
+    int    height;        // avl tree height
 
-    int id;
-
-    int           num_inputs;
-    struct Node * input_args;
-
-    int output_type;
+    struct Node                 * arguments; // expected arguments
+    struct Function_Information * left;      // left subtree
+    struct Function_Information * right;     // right subtree
 } Function_Information;
 
-typedef struct Function_Information_Tree {
-    int id;
-    int height;
-    
-    struct Function_Information      * func;
-    struct Function_Information_Tree * left;
-    struct Function_Information_Tree * right;
-} Function_Information_Tree;
-
 typedef struct Function {
-    int x;
-    int y;
-    int w;
-    int h;
-
-    struct Function_Information * info;
-    struct String_Node          * args;
-    struct Function             * next;
+    struct Function_Information * function_information; // expected arguments, etc.
+    struct Node                 * arguments;            // given arguements
+    struct Function             * next;                 // next function 
 } Function;
 
-// compile_data.c
-Node                      * create_node                     (int val);
-void                        free_list                       (Node * head);
-String_Node               * create_string_node              (char * val);
-void                        free_string_list                (String_Node * head);
-Function_Information_Tree * create_function_information_tree(Function_Information * func);
-void                        function_tree_insert            (Function_Information * func, Function_Information_Tree * root);
+// function_list.c
+Node * create_node(void * val)
+bool   free_list  (Node * head)
+
+// function_information.c
+
 
 #endif
