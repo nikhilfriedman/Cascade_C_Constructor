@@ -32,10 +32,11 @@ typedef struct Function {
 } Function;
 
 // function_list.c
-Node * create_node(void * val)
-bool   free_list  (Node * head)
+Node * create_node(void * val);
+void   free_list  (Node * head);
 
 // function_information.c
-
+void insert_function_information   (int function_id, char * function_name, Node * arguments, Function_Information ** root);
+void free_function_information_tree(Function_Information ** root);
 
 #endif

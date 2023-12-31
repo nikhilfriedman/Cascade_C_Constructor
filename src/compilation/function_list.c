@@ -14,7 +14,7 @@ Node * create_node(void * val)
     return new_node;
 }
 
-bool free_list(Node * head)
+void free_list(Node * head)
 {
     Node * current = head;
     Node * next    = NULL;
