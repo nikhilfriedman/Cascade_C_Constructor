@@ -27,16 +27,18 @@ void graphics_loop(void)
     int window_w; // current window width
     int window_h; // current window height
 
-    int mouse_icon = 0; // current mouse icon
+    double magnification = 1.0; // magnification of graphical elements
+
+    int side_panel_width = DEFAULT_WINDOW_WIDTH / 7;
+
+    // poll positions
+    SDL_GetMouseState(&mouse_x, &mouse_y);
+    SDL_GetWindowSize(window, &window_w, &window_h);
 
     while(!quit)
     {
-        // poll positions
-        SDL_GetMouseState(&mouse_x, &mouse_y);
-        SDL_GetWindowSize(window, &window_w, &window_h);
-
         // poll events
-        while(SDL_PollEvent(&event)) 
+        while(SDL_PollEvent(&event))
         {
             switch(event.type)
             {
@@ -44,25 +46,50 @@ void graphics_loop(void)
                     quit = true;
                     break;
                 case SDL_MOUSEBUTTONDOWN:
+                    SDL_GetMouseState(&mouse_x, &mouse_y);
+                    break;
+                case SDL_MOUSEMOTION:
+                    SDL_GetMouseState(&mouse_x, &mouse_y);
+                    break;
+                case SDL_WINDOWEVENT:
+                    if(event.window.event == SDL_WINDOWEVENT_RESIZED)
+                    {
+                        SDL_GetWindowSize(window, &window_w, &window_h);
+                        update = true;
+                    }
                     break;
             }
         }
 
-        // update all (window resize, etc)
+        if(abs(mouse_x - side_panel_width) <= 5)
+        {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
+            render_thick_line(renderer, side_panel_width, 0, side_panel_width, window_h, 5);
+
+            SDL_RenderPresent(renderer);
+        } else {
+            update = true;
+        }
+
+        // update all (window resize, etc)
         if(update)
         {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
 
-            render_panel(renderer, 0, 0, (window_w / 6), window_h);
-            render_button(renderer, dmsans, "printf", 40, 40, 180, 80);
-            render_button(renderer, dmsans, "if", 40, 160, 180, 80);
-            render_button(renderer, dmsans, "else", 40, 280, 180, 80);
-            render_button(renderer, dmsans, "return", 40, 400, 180, 80);
+            render_panel(renderer, 0, 0, side_panel_width, window_h);
+
+            // render_grid(renderer, window_w, window_h, 20);
+
+            // render_panel(renderer, 0, 0, (window_w / 6), window_h);
+            // render_button(renderer, dmsans, "printf", 40, 40, 180, 80);
+            // render_button(renderer, dmsans, "if", 40, 160, 180, 80);
+            // render_button(renderer, dmsans, "else", 40, 280, 180, 80);
+            // render_button(renderer, dmsans, "return", 40, 400, 180, 80);
 
             SDL_RenderPresent(renderer);
-            // update = false;
+            update = false;
         }
     }
 
